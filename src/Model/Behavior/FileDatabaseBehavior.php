@@ -158,7 +158,7 @@ class FileDatabaseBehavior extends Behavior {
 	}
 	
 	private function createEntityFile($file_up, $fk, $tag){
-		$file = $this->Attachments->newEntity ();
+		$file = $this->Arquivos->newEntity ();
 		
 		$file->file_name = $file_up ['name'];
 		$file->file_path = '';
