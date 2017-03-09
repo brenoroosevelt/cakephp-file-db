@@ -105,11 +105,14 @@ class FileDatabaseBehavior extends Behavior {
 // 				if($conf ['type'] == 'hasMany') {
 					foreach ($files as $f){	
 						if(!is_array($f)){
-							$entities[] = $this->createEntityFile($files, $entity->id, $key);
-							break;
+						    if(is_uploaded_file($files['tmp_name'])){
+							     $entities[] = $this->createEntityFile($files, $entity->id, $key);
+							     break;
+						    }
 						}
 						else{
-							$entities[] = $this->createEntityFile($f,$entity->id, $key) ; 
+						    if(is_uploaded_file($f['tmp_name']))
+							     $entities[] = $this->createEntityFile($f,$entity->id, $key) ; 
 						}
 					}
 // 				}
@@ -127,9 +130,10 @@ class FileDatabaseBehavior extends Behavior {
 // 				$file->model = $this->_table->registryAlias ();
 // 				$file->foreign_key = $entity->{$conf ['bind_key']};
 // 				$file->file_content = file_get_contents ( $file_up ['tmp_name'] );
-				
-				if (! $this->Arquivos->saveMany ( $entities )) {
-					return false;
+				if($entities){
+    				if (! $this->Arquivos->saveMany ( $entities )) {
+    					return false;
+    				}
 				}
 			}
 		}
